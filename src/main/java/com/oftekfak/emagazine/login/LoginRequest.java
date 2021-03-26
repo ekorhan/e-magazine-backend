@@ -1,5 +1,8 @@
-package com.oftekfak.emagazine.registration;
+package com.oftekfak.emagazine.login;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class LoginRequest {
     private String email;
     private String password;
