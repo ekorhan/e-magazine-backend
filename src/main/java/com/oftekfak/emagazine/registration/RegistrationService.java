@@ -43,7 +43,7 @@ public class RegistrationService {
     }
 
     public ResponseEntity<String> login(LoginRequest request) {
-        AppUser appUser = appUserService.getAppUser(request.getUserName());
+        AppUser appUser = appUserService.getAppUser(request.getEmail());
         if (bCryptPasswordEncoder.matches(request.getPassword(), appUser.getPassword())) {
             String token = UUID.randomUUID().toString();
 
