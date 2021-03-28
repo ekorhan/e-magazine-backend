@@ -5,7 +5,6 @@ import com.oftekfak.emagazine.appuser.AppUserService;
 import com.oftekfak.emagazine.registration.token.ConfirmationToken;
 import com.oftekfak.emagazine.registration.token.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class LoginService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public String login(LoginRequest request) {
+    public TokenModel login(LoginRequest request) {
         AppUser appUser = appUserService.getAppUser(request.getEmail());
         if (bCryptPasswordEncoder.matches(request.getPassword(), appUser.getPassword())) {
             String token = UUID.randomUUID().toString();
@@ -36,9 +35,9 @@ public class LoginService {
             confirmationTokenService.saveConfirmationToken(
                     confirmationToken);
 
-            return token;
+            return new TokenModel(token);
         } else {
-            return HttpStatus.UNAUTHORIZED.name();
+            return new TokenModel();
         }
     }
 }

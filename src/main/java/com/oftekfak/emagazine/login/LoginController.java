@@ -1,6 +1,7 @@
 package com.oftekfak.emagazine.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,7 @@ public class LoginController {
     LoginService loginService;
 
     @PostMapping
-    public String login(@RequestBody LoginRequest request) {
-        return loginService.login(request);
+    public ResponseEntity<TokenModel> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(loginService.login(request));
     }
 }
