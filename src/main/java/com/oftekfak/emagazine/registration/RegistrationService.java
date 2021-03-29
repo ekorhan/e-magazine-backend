@@ -84,7 +84,6 @@ public class RegistrationService {
         appUserService.enableAppUser(
                 confirmationToken.getAppUser().getEmail());
 
-        System.out.println("Confirmed");
         return "confirmed";
     }
 }
