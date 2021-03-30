@@ -47,6 +47,10 @@ public class AppUser implements UserDetails {
         return Collections.singletonList(authority);
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String getPassword() {
         return password;

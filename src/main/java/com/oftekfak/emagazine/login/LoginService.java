@@ -35,7 +35,7 @@ public class LoginService {
             confirmationTokenService.saveConfirmationToken(
                     confirmationToken);
 
-            return new TokenModel(token);
+            return new TokenModel(token, appUser.getId());
         } else {
             return new TokenModel();
         }
