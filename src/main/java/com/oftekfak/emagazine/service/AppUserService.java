@@ -1,23 +1,21 @@
-package com.oftekfak.emagazine.appuser;
+package com.oftekfak.emagazine.service;
 
-import com.oftekfak.emagazine.registration.token.ConfirmationToken;
-import com.oftekfak.emagazine.registration.token.ConfirmationTokenService;
+import com.oftekfak.emagazine.entity.AppUser;
+import com.oftekfak.emagazine.model.registration.ConfirmationToken;
+import com.oftekfak.emagazine.model.registration.ConfirmationTokenService;
+import com.oftekfak.emagazine.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class AppUserService implements UserDetailsService {
-
-    private final static String USER_NOT_FOUND_MSG =
-            "user with email %s not found";
-
     @Autowired
     AppUserRepository appUserRepository;
 
@@ -28,20 +26,13 @@ public class AppUserService implements UserDetailsService {
     ConfirmationTokenService confirmationTokenService;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
-            throws UsernameNotFoundException {
-        return appUserRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(
-                                String.format(USER_NOT_FOUND_MSG, email)));
+    public UserDetails loadUserByUsername(String email) {
+        return appUserRepository.inquireUserByEmail(email);
     }
 
-    public AppUser getAppUser(String email)
-            throws UsernameNotFoundException {
-        return appUserRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(
-                                String.format(USER_NOT_FOUND_MSG, email)));
+    public AppUser getAppUser(String email) {
+        List<AppUser> a = appUserRepository.findAll();
+        return appUserRepository.inquireUserByEmail(email);
     }
 
     public String signUpUser(AppUser appUser) {

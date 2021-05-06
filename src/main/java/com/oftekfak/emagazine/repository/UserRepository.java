@@ -1,6 +1,6 @@
 package com.oftekfak.emagazine.repository;
 
-import com.oftekfak.emagazine.appuser.AppUser;
+import com.oftekfak.emagazine.entity.AppUser;
 import com.oftekfak.emagazine.model.user.ProfileModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

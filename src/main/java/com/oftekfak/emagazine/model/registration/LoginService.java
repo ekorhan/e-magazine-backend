@@ -1,14 +1,13 @@
-package com.oftekfak.emagazine.login;
+package com.oftekfak.emagazine.model.registration;
 
-import com.oftekfak.emagazine.appuser.AppUser;
-import com.oftekfak.emagazine.appuser.AppUserService;
-import com.oftekfak.emagazine.registration.token.ConfirmationToken;
-import com.oftekfak.emagazine.registration.token.ConfirmationTokenService;
+import com.oftekfak.emagazine.entity.AppUser;
+import com.oftekfak.emagazine.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -22,6 +21,9 @@ public class LoginService {
 
     public TokenModel login(LoginRequest request) {
         AppUser appUser = appUserService.getAppUser(request.getEmail());
+        if (Objects.isNull(appUser))
+            throw new IllegalStateException("User not found");
+
         if (bCryptPasswordEncoder.matches(request.getPassword(), appUser.getPassword())) {
             String token = UUID.randomUUID().toString();
 

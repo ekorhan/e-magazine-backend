@@ -1,5 +1,6 @@
-package com.oftekfak.emagazine.registration.token;
+package com.oftekfak.emagazine.repository;
 
+import com.oftekfak.emagazine.model.registration.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

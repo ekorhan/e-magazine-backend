@@ -1,4 +1,4 @@
-package com.oftekfak.emagazine.login;
+package com.oftekfak.emagazine.model.registration;
 
 public class TokenModel {
     private Boolean success;

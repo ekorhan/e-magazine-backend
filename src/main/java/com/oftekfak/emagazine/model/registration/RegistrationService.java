@@ -1,10 +1,8 @@
-package com.oftekfak.emagazine.registration;
+package com.oftekfak.emagazine.model.registration;
 
-import com.oftekfak.emagazine.appuser.AppUser;
-import com.oftekfak.emagazine.appuser.AppUserRole;
-import com.oftekfak.emagazine.appuser.AppUserService;
-import com.oftekfak.emagazine.registration.token.ConfirmationToken;
-import com.oftekfak.emagazine.registration.token.ConfirmationTokenService;
+import com.oftekfak.emagazine.entity.AppUser;
+import com.oftekfak.emagazine.model.AppUserRole;
+import com.oftekfak.emagazine.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

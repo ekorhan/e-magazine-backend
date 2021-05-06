@@ -21,7 +21,17 @@ public class UserService {
     private UserFollowRepository userFollowRepository;
 
     public ProfileModel inquireUserProfileInformation(Long userId) {
-        return userRepository.findProfileInformation(userId).orElse(null);
+        ProfileModel profileModel = userRepository.findProfileInformation(userId).orElse(null);
+
+        if (Objects.nonNull(profileModel)){
+            long followedUserCount  = userFollowRepository.findByMainUser(userId).size();
+            long followersCount  = userFollowRepository.findByFollowedUser(userId).size();
+
+            profileModel.setFollowedCount(followedUserCount);
+            profileModel.setFollowerCount(followersCount);
+        }
+
+        return profileModel;
     }
 
     public Long followUser(Long mainUserId, Long followedUserId) {

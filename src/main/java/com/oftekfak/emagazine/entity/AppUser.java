@@ -1,5 +1,6 @@
-package com.oftekfak.emagazine.appuser;
+package com.oftekfak.emagazine.entity;
 
+import com.oftekfak.emagazine.model.AppUserRole;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

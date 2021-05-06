@@ -1,6 +1,6 @@
-package com.oftekfak.emagazine.registration.token;
+package com.oftekfak.emagazine.model.registration;
 
-import com.oftekfak.emagazine.appuser.AppUser;
+import com.oftekfak.emagazine.entity.AppUser;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

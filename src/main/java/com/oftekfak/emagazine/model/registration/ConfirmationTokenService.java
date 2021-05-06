@@ -1,5 +1,6 @@
-package com.oftekfak.emagazine.registration.token;
+package com.oftekfak.emagazine.model.registration;
 
+import com.oftekfak.emagazine.repository.ConfirmationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

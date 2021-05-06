@@ -1,11 +1,9 @@
 package com.oftekfak.emagazine;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication()
-@AutoConfigureBefore
+@SpringBootApplication
 public class EmagazineApplication {
 
     public static void main(String[] args) {

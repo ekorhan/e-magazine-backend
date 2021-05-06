@@ -4,6 +4,8 @@ public class ProfileModel {
     private String mail;
     private String firstName;
     private String lastName;
+    private long followerCount;
+    private long followedCount;
 
     public ProfileModel() {
     }
@@ -36,5 +38,21 @@ public class ProfileModel {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public long getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(long followerCount) {
+        this.followerCount = followerCount;
+    }
+
+    public long getFollowedCount() {
+        return followedCount;
+    }
+
+    public void setFollowedCount(long followedCount) {
+        this.followedCount = followedCount;
     }
 }
