@@ -1,6 +1,6 @@
 package com.oftekfak.emagazine.security.config;
 
-import com.oftekfak.emagazine.service.AppUserService;
+import com.oftekfak.emagazine.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    AppUserService appUserService;
+    IAppUserService appUserService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 //

@@ -2,7 +2,7 @@ package com.oftekfak.emagazine.model.registration;
 
 import com.oftekfak.emagazine.entity.AppUser;
 import com.oftekfak.emagazine.model.AppUserRole;
-import com.oftekfak.emagazine.service.AppUserService;
+import com.oftekfak.emagazine.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class RegistrationService {
 
     @Autowired
-    AppUserService appUserService;
+    IAppUserService appUserService;
     @Autowired
     ConfirmationTokenService confirmationTokenService;
     @Autowired
@@ -55,8 +55,7 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        appUserService.enableAppUser(
-                confirmationToken.getAppUser().getEmail());
+        appUserService.enableAppUser(confirmationToken.getAppUser().getEmail());
 
         return "confirmed";
     }

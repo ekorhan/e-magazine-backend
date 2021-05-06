@@ -1,12 +1,12 @@
-package com.oftekfak.emagazine.service;
+package com.oftekfak.emagazine.service.impl;
 
 import com.oftekfak.emagazine.entity.AppUser;
 import com.oftekfak.emagazine.model.registration.ConfirmationToken;
 import com.oftekfak.emagazine.model.registration.ConfirmationTokenService;
 import com.oftekfak.emagazine.repository.AppUserRepository;
+import com.oftekfak.emagazine.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class AppUserService implements UserDetailsService {
+public class AppUserServiceImpl implements IAppUserService {
     @Autowired
     AppUserRepository appUserRepository;
 
@@ -30,11 +30,13 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.inquireUserByEmail(email);
     }
 
+    @Override
     public AppUser getAppUser(String email) {
         List<AppUser> a = appUserRepository.findAll();
         return appUserRepository.inquireUserByEmail(email);
     }
 
+    @Override
     public String signUpUser(AppUser appUser) {
         boolean userExists = appUserRepository
                 .findByEmail(appUser.getEmail())
@@ -71,6 +73,7 @@ public class AppUserService implements UserDetailsService {
         return token;
     }
 
+    @Override
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
     }
