@@ -18,6 +18,6 @@ public class ProfileController {
 
     @GetMapping(path = "/profile/inquireUserInfo/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileModel> inquireUserProfile(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.inquireUserProfileInformation(userId));
+        return ResponseEntity.ok(userService.inquireSimpleProfileInfo(userId));
     }
 }

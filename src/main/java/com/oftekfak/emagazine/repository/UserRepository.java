@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<AppUser, Long> {
-    @Query("SELECT new com.oftekfak.emagazine.model.user.ProfileModel(email,firstName,lastName) FROM AppUser WHERE id=:userId")
-    Optional<ProfileModel> findProfileInformation(Long userId);
+    @Query("SELECT new com.oftekfak.emagazine.model.user.ProfileModel(u) FROM AppUser u WHERE u.id=:userId")
+    Optional<ProfileModel> findSimpleProfileInfo(Long userId);
 }

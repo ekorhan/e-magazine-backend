@@ -16,4 +16,14 @@ public class UserController {
     public ResponseEntity<Long> followUser(@RequestParam Long mainUserId, @RequestParam Long followedUserId) {
         return ResponseEntity.ok(userService.followUser(mainUserId, followedUserId));
     }
+
+    @PostMapping(path = "/likePost", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> likePost( ) {
+        return ResponseEntity.ok(userService.likePost());
+    }
+
+    @PostMapping(path = "/commentPost", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> commentPost( ) {
+        return ResponseEntity.ok(userService.commentPost());
+    }
 }

@@ -9,4 +9,6 @@ public interface IPostService {
     PostEntity addPost(PostModel postModel);
 
     List<PostEntity> inquireUserHomePagePosts(Long userId);
+
+    List<PostEntity> inquireUserPosts(Long userId);
 }

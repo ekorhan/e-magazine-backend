@@ -35,8 +35,17 @@ public class PostServiceImpl implements IPostService {
     public List<PostEntity> inquireUserHomePagePosts(Long userId) {
         List<UserFollowEntity> followedUsers = userService.inquireFollowedUsers(userId);
         ArrayList<Long> followedUserIds = new ArrayList<>();
-        followedUsers.forEach( m -> followedUserIds.add(m.getFollowedUser()));
-        List<PostEntity> postModels = postRepository.findAllById(followedUserIds);
+        followedUsers.forEach(m -> followedUserIds.add(m.getFollowedUser()));
+        List<PostEntity> postModels = postRepository.findAllByUserIdOrderByCreatedAtDesc(followedUserIds);
         return postModels;
+    }
+
+    @Override
+    public List<PostEntity> inquireUserPosts(Long userId) {
+        List<PostEntity> postEntities = postRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        if (postEntities == null)
+            return new ArrayList<>();
+
+        return postEntities;
     }
 }

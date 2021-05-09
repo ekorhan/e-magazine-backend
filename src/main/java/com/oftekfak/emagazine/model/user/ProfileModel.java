@@ -1,19 +1,49 @@
 package com.oftekfak.emagazine.model.user;
 
+import com.oftekfak.emagazine.entity.AppUser;
+import com.oftekfak.emagazine.entity.PostEntity;
+import com.oftekfak.emagazine.model.post.PostModel;
+import com.oftekfak.emagazine.utils.ObjectUtils;
+
+import java.util.List;
+
 public class ProfileModel {
+    private Long id;
+    private String userName;
     private String mail;
     private String firstName;
     private String lastName;
     private long followerCount;
     private long followedCount;
+    private List<PostModel> posts;
 
-    public ProfileModel() {
+    public ProfileModel(AppUser appUser) {
+        id = appUser.getId();
+        userName = appUser.getUsername();
+        mail = appUser.getEmail();
+        firstName = appUser.getFirstName();
+        lastName = appUser.getLastName();
     }
 
-    public ProfileModel(String mail, String firstName, String lastName) {
-        this.mail = mail;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public ProfileModel(AppUser appUser, List<PostEntity> postEntities) {
+        this(appUser);
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getMail() {
@@ -55,4 +85,19 @@ public class ProfileModel {
     public void setFollowedCount(long followedCount) {
         this.followedCount = followedCount;
     }
+
+    public List<PostModel> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostModel> posts) {
+        this.posts = posts;
+    }
+
+    public void setPostsFromEntity(List<PostEntity> postEntities) {
+        for (PostEntity p : postEntities) {
+            posts.add(ObjectUtils.getModelMapper().map(p, PostModel.class));
+        }
+    }
+
 }

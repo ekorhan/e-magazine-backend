@@ -16,7 +16,7 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    private IPostService postService;
+    IPostService postService;
 
     @GetMapping("/inquireHomePagePosts")
     public ResponseEntity<List<PostEntity>> inquireHomePagePosts(@RequestParam Long userId) {

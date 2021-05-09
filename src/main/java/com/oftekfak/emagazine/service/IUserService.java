@@ -6,11 +6,17 @@ import com.oftekfak.emagazine.model.user.ProfileModel;
 import java.util.List;
 
 public interface IUserService {
-    ProfileModel inquireUserProfileInformation(Long userId);
+    ProfileModel inquireSimpleProfileInfo(Long userId);
+
+    ProfileModel inquireAllProfileInfo(Long userId);
 
     Long followUser(Long mainUserId, Long followedUserId);
 
     List<UserFollowEntity> inquireFollowedUsers(Long userId);
 
     List<UserFollowEntity> inquireFollowers(Long userId);
+
+    Long likePost();
+
+    Long commentPost();
 }

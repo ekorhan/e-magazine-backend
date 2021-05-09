@@ -4,6 +4,7 @@ import com.oftekfak.emagazine.entity.UserFollowEntity;
 import com.oftekfak.emagazine.model.user.ProfileModel;
 import com.oftekfak.emagazine.repository.UserFollowRepository;
 import com.oftekfak.emagazine.repository.UserRepository;
+import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +22,22 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserFollowRepository userFollowRepository;
 
-    public ProfileModel inquireUserProfileInformation(Long userId) {
-        ProfileModel profileModel = userRepository.findProfileInformation(userId).orElse(null);
+    @Autowired
+    private IPostService postService;
 
+    public ProfileModel inquireSimpleProfileInfo(Long userId) {
+        ProfileModel profileModel = userRepository.findSimpleProfileInfo(userId).orElse(null);
         if (Objects.nonNull(profileModel)) {
-            long followedUserCount = inquireFollowedUsers(userId).size();
-            long followersCount = inquireFollowers(userId).size();
+            setFollowCounts(profileModel);
+        }
+        return profileModel;
+    }
 
-            profileModel.setFollowedCount(followedUserCount);
-            profileModel.setFollowerCount(followersCount);
+    public ProfileModel inquireAllProfileInfo(Long userId) {
+        ProfileModel profileModel = userRepository.findSimpleProfileInfo(userId).orElse(null);
+        if (Objects.nonNull(profileModel)) {
+            setFollowCounts(profileModel);
+            setPosts(profileModel);
         }
 
         return profileModel;
@@ -55,5 +63,30 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<UserFollowEntity> inquireFollowers(Long userId) {
         return userFollowRepository.findByFollowedUser(userId);
+    }
+
+    @Override
+    public Long likePost() {
+        return null;
+    }
+
+    @Override
+    public Long commentPost() {
+        return null;
+    }
+
+    private ProfileModel setFollowCounts(ProfileModel profileModel) {
+        long followedUserCount = inquireFollowedUsers(profileModel.getId()).size();
+        long followersCount = inquireFollowers(profileModel.getId()).size();
+
+        profileModel.setFollowedCount(followedUserCount);
+        profileModel.setFollowerCount(followersCount);
+
+        return profileModel;
+    }
+
+    private ProfileModel setPosts(ProfileModel profileModel) {
+        profileModel.setPostsFromEntity(postService.inquireUserPosts(profileModel.getId()));
+        return profileModel;
     }
 }
