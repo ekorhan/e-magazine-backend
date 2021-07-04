@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/home",
                         "/home1",
                         "/home2",
+                        "api/v1/home",
                         "/api/v1/registration/test",
                         "/api/v1/registration").permitAll()
                 .anyRequest().authenticated()

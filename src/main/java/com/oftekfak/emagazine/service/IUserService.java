@@ -16,7 +16,7 @@ public interface IUserService {
 
     List<UserFollowEntity> inquireFollowers(Long userId);
 
-    Long likePost();
+    void likePost(Long postId, Long userId);
 
-    Long commentPost();
+    void commentPost(Long postId, Long userId, String comment);
 }
