@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "like")
-public class LikeEntity extends BaseEntity  {
+@Table(name = "like_rel")
+public class LikeRelEntity extends BaseEntity  {
     private Long postId;
     private Long userId;
 
