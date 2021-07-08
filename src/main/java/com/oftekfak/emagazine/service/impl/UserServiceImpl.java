@@ -1,7 +1,7 @@
 package com.oftekfak.emagazine.service.impl;
 
-import com.oftekfak.emagazine.entity.CommentEntity;
-import com.oftekfak.emagazine.entity.LikeEntity;
+import com.oftekfak.emagazine.entity.CommentRelEntity;
+import com.oftekfak.emagazine.entity.LikeRelEntity;
 import com.oftekfak.emagazine.entity.UserFollowEntity;
 import com.oftekfak.emagazine.model.user.ProfileModel;
 import com.oftekfak.emagazine.repository.CommentRepository;
@@ -77,19 +77,19 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void likePost(Long postId, Long userId) {
-        LikeEntity likeEntity = new LikeEntity();
-        likeEntity.setPostId(postId);
-        likeEntity.setUserId(userId);
-        likeRepository.save(likeEntity);
+        LikeRelEntity likeRelEntity = new LikeRelEntity();
+        likeRelEntity.setPostId(postId);
+        likeRelEntity.setUserId(userId);
+        likeRepository.save(likeRelEntity);
     }
 
     @Override
     public void commentPost(Long postId, Long userId, String comment) {
-        CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setComment(comment);
-        commentEntity.setPostId(postId);
-        commentEntity.setUserId(userId);
-        commentRepository.save(commentEntity);
+        CommentRelEntity commentRelEntity = new CommentRelEntity();
+        commentRelEntity.setComment(comment);
+        commentRelEntity.setPostId(postId);
+        commentRelEntity.setUserId(userId);
+        commentRepository.save(commentRelEntity);
     }
 
     private ProfileModel setFollowCounts(ProfileModel profileModel) {

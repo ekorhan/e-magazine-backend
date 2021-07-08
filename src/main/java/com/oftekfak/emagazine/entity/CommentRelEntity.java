@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "comment")
-public class CommentEntity extends BaseEntity {
+@Table(name = "comment_rel")
+public class CommentRelEntity extends BaseEntity {
     private Long postId;
     private Long userId;
     private String comment;
