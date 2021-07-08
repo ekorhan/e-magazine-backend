@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/v1/login")
+@RequestMapping(path = "/api/v1")
 public class LoginController {
 
     @Autowired
     LoginService loginService;
 
-    @GetMapping
+    @PostMapping(path = "/login")
     public ResponseEntity<TokenModel> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(loginService.login(request));
     }
