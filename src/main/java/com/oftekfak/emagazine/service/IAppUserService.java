@@ -9,4 +9,6 @@ public interface IAppUserService extends UserDetailsService {
     String signUpUser(AppUser appUser);
 
     int enableAppUser(String email);
+
+    String getUserNameFromToken(String token);
 }

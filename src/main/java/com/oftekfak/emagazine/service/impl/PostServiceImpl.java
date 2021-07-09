@@ -4,6 +4,8 @@ import com.oftekfak.emagazine.entity.PostEntity;
 import com.oftekfak.emagazine.entity.UserFollowEntity;
 import com.oftekfak.emagazine.model.post.PostModel;
 import com.oftekfak.emagazine.repository.PostRepository;
+import com.oftekfak.emagazine.security.AuthUserProvider;
+import com.oftekfak.emagazine.service.IAppUserService;
 import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,14 @@ public class PostServiceImpl implements IPostService {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IAppUserService appUserService;
+
     public PostEntity addPost(PostModel postModel) {
         PostEntity postEntity = new PostEntity();
         postEntity.setTitle(postModel.getTitle());
         postEntity.setContent(postModel.getContent());
-        postEntity.setUserId(postModel.getUserId());
+        postEntity.setUserId(appUserService.getAppUser(AuthUserProvider.getAuthUser()).getId());
         postEntity.setCreatedAt(new Date());
         return postRepository.save(postEntity);
     }

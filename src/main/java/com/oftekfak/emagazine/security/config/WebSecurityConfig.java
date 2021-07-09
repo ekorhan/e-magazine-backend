@@ -1,5 +1,6 @@
 package com.oftekfak.emagazine.security.config;
 
+import com.oftekfak.emagazine.security.AuthenticationFilter;
 import com.oftekfak.emagazine.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +20,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     IAppUserService appUserService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    AuthenticationFilter authenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated().and()
                 .formLogin();
+        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 
