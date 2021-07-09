@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -76,5 +78,14 @@ public class AppUserServiceImpl implements IAppUserService {
     @Override
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
+    }
+
+    @Override
+    public String getUserNameFromToken(String token) {
+        Optional<ConfirmationToken> confirmationToken = confirmationTokenService.getToken(token);
+        if (confirmationToken.isPresent() && Objects.nonNull(confirmationToken.get().getAppUser()))
+            return confirmationToken.get().getAppUser().getEmail();
+
+        return "";
     }
 }
