@@ -39,7 +39,7 @@ public class LoginService {
 
             return new TokenModel(token, appUser.getId());
         } else {
-            return new TokenModel();
+            throw new IllegalStateException("Password isn't correct");
         }
     }
 }
