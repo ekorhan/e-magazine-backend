@@ -14,10 +14,7 @@ import com.oftekfak.emagazine.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -37,35 +34,45 @@ public class PostServiceImpl implements IPostService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public PostEntity addPost(PostModel postModel) {
+    public PostModel addPost(PostModel postModel) {
         PostEntity postEntity = new PostEntity();
         postEntity.setTitle(postModel.getTitle());
         postEntity.setContent(postModel.getContent());
         postEntity.setUserId(appUserService.getAppUser(AuthUserProvider.getAuthUser()).getId());
         postEntity.setCreatedAt(new Date());
-        return postRepository.save(postEntity);
+        return new PostModel(postRepository.save(postEntity));
     }
 
     @Override
-    public List<PostEntity> inquireUserHomePagePosts() {
+    public LinkedList<PostModel> inquireUserHomePagePosts() {
         List<UserFollowEntity> followedUsers = userService.inquireFollowedUsers(userService.getAuthUserId());
         ArrayList<Long> followedUserIds = new ArrayList<>();
         followedUsers.forEach(m -> followedUserIds.add(m.getFollowedUser()));
-        return postRepository.findAllByUserIdOrderByCreatedAtDesc(followedUserIds);
+        LinkedList<PostModel> postModels = new LinkedList<>();
+        postRepository.findAllByUserIdOrderByCreatedAtDesc(followedUserIds)
+                .forEach(e -> postModels.add(new PostModel(e)));
+        return postModels;
     }
 
     @Override
-    public List<PostEntity> inquireUserHomePagePostsForNewUser() {
-        return postRepository.findAll();
+    public List<PostModel> inquireUserHomePagePostsForNewUser() {
+        List<PostModel> postModels = new ArrayList<>();
+        postRepository.findAll()
+                .forEach(e -> postModels.add(new PostModel(e)));
+        return postModels;
     }
 
     @Override
-    public List<PostEntity> inquireUserPosts(Long userId) {
+    public LinkedList<PostModel> inquireUserPosts(Long userId) {
         List<PostEntity> postEntities = postRepository.findByUserIdOrderByCreatedAtDesc(userId);
         if (postEntities == null)
-            return new ArrayList<>();
+            return new LinkedList<>();
 
-        return postEntities;
+        LinkedList<PostModel> postModels = new LinkedList<>();
+
+        postEntities.forEach(e -> postModels.add(new PostModel(e)));
+
+        return postModels;
     }
 
     @Override

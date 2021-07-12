@@ -1,6 +1,5 @@
 package com.oftekfak.emagazine.controller;
 
-import com.oftekfak.emagazine.entity.PostEntity;
 import com.oftekfak.emagazine.model.post.PostModel;
 import com.oftekfak.emagazine.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ public class PostController {
     private IPostService postService;
 
     @PostMapping(path = "post/upload")
-    public ResponseEntity<PostEntity> addPost(@RequestBody PostModel postModel) {
+    public ResponseEntity<PostModel> addPost(@RequestBody PostModel postModel) {
         return ResponseEntity.ok(postService.addPost(postModel));
     }
 
