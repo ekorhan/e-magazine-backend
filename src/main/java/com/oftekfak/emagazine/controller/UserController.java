@@ -1,5 +1,6 @@
 package com.oftekfak.emagazine.controller;
 
+import com.oftekfak.emagazine.model.post.PostIdModel;
 import com.oftekfak.emagazine.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,9 @@ public class UserController {
     }
 
     @PostMapping(path = "/likePost", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> likePost(@RequestParam Long postId) {
+    public ResponseEntity<HttpStatus> likePost(@RequestBody PostIdModel postIdModel) {
         try {
-            userService.likePost(postId);
+            userService.likePost(postIdModel.getPostId());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -29,9 +30,9 @@ public class UserController {
     }
 
     @PostMapping(path = "/commentPost", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> commentPost(Long postId, String comment) {
+    public ResponseEntity<HttpStatus> commentPost(@RequestBody PostIdModel postIdModel) {
         try {
-            userService.commentPost(postId, comment);
+            userService.commentPost(postIdModel.getPostId(), postIdModel.getComment());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.OK);
