@@ -3,7 +3,7 @@ package com.oftekfak.emagazine.model.user;
 import com.oftekfak.emagazine.entity.AppUser;
 import com.oftekfak.emagazine.entity.PostEntity;
 import com.oftekfak.emagazine.model.post.PostModel;
-import com.oftekfak.emagazine.utils.ObjectUtils;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
@@ -95,8 +95,9 @@ public class ProfileModel {
     }
 
     public void setPostsFromEntity(List<PostEntity> postEntities) {
+        ModelMapper modelMapper = new ModelMapper();
         for (PostEntity p : postEntities) {
-            posts.add(ObjectUtils.getModelMapper().map(p, PostModel.class));
+            posts.add(modelMapper.map(p, PostModel.class));
         }
     }
 

@@ -86,6 +86,7 @@ public class UserServiceImpl implements IUserService {
         LikeRelEntity likeRelEntity = new LikeRelEntity();
         likeRelEntity.setPostId(postId);
         likeRelEntity.setUserId(getAuthUserId());
+        likeRelEntity.setCreatedAt(new Date());
         likeRepository.save(likeRelEntity);
     }
 

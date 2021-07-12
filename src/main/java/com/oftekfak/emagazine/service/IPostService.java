@@ -15,4 +15,6 @@ public interface IPostService {
     List<PostEntity> inquireUserPosts(Long userId);
 
     PostModel getPost(Long postId);
+
+    int inquireLikeCount(Long postId);
 }
