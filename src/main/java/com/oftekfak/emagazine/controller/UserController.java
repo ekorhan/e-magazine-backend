@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/likePost", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> likePost(@RequestBody Long postId) {
+    public ResponseEntity<HttpStatus> likePost(@RequestParam Long postId) {
         try {
             userService.likePost(postId);
             return new ResponseEntity<>(HttpStatus.OK);

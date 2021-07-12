@@ -3,12 +3,16 @@ package com.oftekfak.emagazine.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "like_rel")
-public class LikeRelEntity extends BaseEntity  {
+@Table(name = "like_rel",
+        uniqueConstraints =
+        @UniqueConstraint(columnNames = {"post_id", "user_id"}))
+public class LikeRelEntity extends BaseEntity {
     private Long postId;
     private Long userId;
+    private Boolean isActive;
 
     @Column(name = "post_id")
     public Long getPostId() {
@@ -26,5 +30,14 @@ public class LikeRelEntity extends BaseEntity  {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Column(name = "is_active")
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

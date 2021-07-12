@@ -1,17 +1,42 @@
 package com.oftekfak.emagazine.model.post;
 
+import com.oftekfak.emagazine.entity.PostEntity;
+
+import java.util.Date;
 import java.util.List;
 
 public class PostModel {
+    private Long postId;
     private Long userId;
-    private Long userName;
+    private String userName;
     private Long userProfilePic;
     private String title;
     private String content;
     private String picUrl;
-    private String likeCount;
-    private String commentCount;
+    private int likeCount;
+    private int commentCount;
     private List<String> comments;
+    private Date createdDate;
+    private Boolean isLiked;
+
+    public PostModel() {
+    }
+
+    public PostModel(PostEntity postEntity) {
+        postId = postEntity.getId();
+        userId = postEntity.getUserId();
+        title = postEntity.getTitle();
+        content = postEntity.getContent();
+        createdDate = postEntity.getCreatedAt();
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
 
     public Long getUserId() {
         return userId;
@@ -21,11 +46,11 @@ public class PostModel {
         this.userId = userId;
     }
 
-    public Long getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserName(Long userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -61,19 +86,19 @@ public class PostModel {
         this.picUrl = picUrl;
     }
 
-    public String getLikeCount() {
+    public int getLikeCount() {
         return likeCount;
     }
 
-    public void setLikeCount(String likeCount) {
+    public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
     }
 
-    public String getCommentCount() {
+    public int getCommentCount() {
         return commentCount;
     }
 
-    public void setCommentCount(String commentCount) {
+    public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
     }
 
@@ -83,5 +108,21 @@ public class PostModel {
 
     public void setComments(List<String> comments) {
         this.comments = comments;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Boolean getLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(Boolean liked) {
+        isLiked = liked;
     }
 }

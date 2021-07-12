@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -83,9 +84,19 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void likePost(Long postId) {
-        LikeRelEntity likeRelEntity = new LikeRelEntity();
-        likeRelEntity.setPostId(postId);
-        likeRelEntity.setUserId(getAuthUserId());
+        Long userId = getAuthUserId();
+        Optional<LikeRelEntity> likeRelEntityOptional = likeRepository.findByUserIdAndPostId(userId, postId);
+        LikeRelEntity likeRelEntity;
+        if (likeRelEntityOptional.isPresent()) {
+            likeRelEntity = likeRelEntityOptional.get();
+            likeRelEntity.setActive(!likeRelEntity.getActive());
+        } else {
+            likeRelEntity = new LikeRelEntity();
+            likeRelEntity.setPostId(postId);
+            likeRelEntity.setUserId(userId);
+            likeRelEntity.setActive(true);
+            likeRelEntity.setCreatedAt(new Date());
+        }
         likeRepository.save(likeRelEntity);
     }
 
