@@ -18,7 +18,7 @@ public class PostController {
         return ResponseEntity.ok(postService.addPost(postModel));
     }
 
-    @PostMapping(path = "post/{postId}")
+    @GetMapping(path = "post/{postId}")
     public ResponseEntity<PostModel> getPost(@PathVariable Long postId) {
         return ResponseEntity.ok(postService.getPost(postId));
     }
