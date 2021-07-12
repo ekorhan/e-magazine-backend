@@ -8,7 +8,11 @@ import java.util.List;
 public interface IPostService {
     PostEntity addPost(PostModel postModel);
 
-    List<PostEntity> inquireUserHomePagePosts(Long userId);
+    List<PostEntity> inquireUserHomePagePosts();
+
+    List<PostEntity> inquireUserHomePagePostsForNewUser();
 
     List<PostEntity> inquireUserPosts(Long userId);
+
+    PostModel getPost(Long postId);
 }

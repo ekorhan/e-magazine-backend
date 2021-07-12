@@ -1,5 +1,6 @@
 package com.oftekfak.emagazine.service.impl;
 
+import com.oftekfak.emagazine.entity.AppUser;
 import com.oftekfak.emagazine.entity.CommentRelEntity;
 import com.oftekfak.emagazine.entity.LikeRelEntity;
 import com.oftekfak.emagazine.entity.UserFollowEntity;
@@ -8,6 +9,8 @@ import com.oftekfak.emagazine.repository.CommentRepository;
 import com.oftekfak.emagazine.repository.LikeRepository;
 import com.oftekfak.emagazine.repository.UserFollowRepository;
 import com.oftekfak.emagazine.repository.UserRepository;
+import com.oftekfak.emagazine.security.AuthUserProvider;
+import com.oftekfak.emagazine.service.IAppUserService;
 import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private IAppUserService appUserService;
+
     public ProfileModel inquireSimpleProfileInfo(Long userId) {
         ProfileModel profileModel = userRepository.findSimpleProfileInfo(userId).orElse(null);
         if (Objects.nonNull(profileModel)) {
@@ -53,9 +59,9 @@ public class UserServiceImpl implements IUserService {
         return profileModel;
     }
 
-    public Long followUser(Long mainUserId, Long followedUserId) {
+    public Long followUser(Long followedUserId) {
         UserFollowEntity userFollowEntity = new UserFollowEntity();
-        userFollowEntity.setMainUser(mainUserId);
+        userFollowEntity.setMainUser(getAuthUserId());
         userFollowEntity.setFollowedUser(followedUserId);
         userFollowEntity.setCreatedAt(new Date());
         userFollowRepository.save(userFollowEntity);
@@ -76,19 +82,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void likePost(Long postId, Long userId) {
+    public void likePost(Long postId) {
         LikeRelEntity likeRelEntity = new LikeRelEntity();
         likeRelEntity.setPostId(postId);
-        likeRelEntity.setUserId(userId);
+        likeRelEntity.setUserId(getAuthUserId());
         likeRepository.save(likeRelEntity);
     }
 
     @Override
-    public void commentPost(Long postId, Long userId, String comment) {
+    public void commentPost(Long postId, String comment) {
+
         CommentRelEntity commentRelEntity = new CommentRelEntity();
         commentRelEntity.setComment(comment);
         commentRelEntity.setPostId(postId);
-        commentRelEntity.setUserId(userId);
+        commentRelEntity.setUserId(getAuthUserId());
         commentRepository.save(commentRelEntity);
     }
 
@@ -105,5 +112,11 @@ public class UserServiceImpl implements IUserService {
     private ProfileModel setPosts(ProfileModel profileModel) {
         profileModel.setPostsFromEntity(postService.inquireUserPosts(profileModel.getId()));
         return profileModel;
+    }
+
+    public Long getAuthUserId() {
+        String userName = AuthUserProvider.getAuthUser();
+        AppUser appUser = appUserService.getAppUser(userName);
+        return appUser.getId();
     }
 }

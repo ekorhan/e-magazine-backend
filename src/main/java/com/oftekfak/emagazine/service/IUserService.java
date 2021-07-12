@@ -10,13 +10,15 @@ public interface IUserService {
 
     ProfileModel inquireAllProfileInfo(Long userId);
 
-    Long followUser(Long mainUserId, Long followedUserId);
+    Long followUser(Long followedUserId);
 
     List<UserFollowEntity> inquireFollowedUsers(Long userId);
 
     List<UserFollowEntity> inquireFollowers(Long userId);
 
-    void likePost(Long postId, Long userId);
+    void likePost(Long postId);
 
-    void commentPost(Long postId, Long userId, String comment);
+    void commentPost(Long postId, String comment);
+
+    Long getAuthUserId();
 }

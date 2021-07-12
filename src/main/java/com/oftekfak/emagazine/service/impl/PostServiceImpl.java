@@ -8,12 +8,14 @@ import com.oftekfak.emagazine.security.AuthUserProvider;
 import com.oftekfak.emagazine.service.IAppUserService;
 import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
+import com.oftekfak.emagazine.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -37,12 +39,16 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public List<PostEntity> inquireUserHomePagePosts(Long userId) {
-        List<UserFollowEntity> followedUsers = userService.inquireFollowedUsers(userId);
+    public List<PostEntity> inquireUserHomePagePosts() {
+        List<UserFollowEntity> followedUsers = userService.inquireFollowedUsers(userService.getAuthUserId());
         ArrayList<Long> followedUserIds = new ArrayList<>();
         followedUsers.forEach(m -> followedUserIds.add(m.getFollowedUser()));
-        List<PostEntity> postModels = postRepository.findAllByUserIdOrderByCreatedAtDesc(followedUserIds);
-        return postModels;
+        return postRepository.findAllByUserIdOrderByCreatedAtDesc(followedUserIds);
+    }
+
+    @Override
+    public List<PostEntity> inquireUserHomePagePostsForNewUser() {
+        return postRepository.findAll();
     }
 
     @Override
@@ -52,5 +58,14 @@ public class PostServiceImpl implements IPostService {
             return new ArrayList<>();
 
         return postEntities;
+    }
+
+    @Override
+    public PostModel getPost(Long postId) {
+        Optional<PostEntity> postEntity = postRepository.findById(postId);
+        if (!postEntity.isPresent())
+            return new PostModel();
+
+        return ObjectUtils.getModelMapper().map(postEntity.get(), PostModel.class);
     }
 }
