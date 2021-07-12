@@ -4,6 +4,7 @@ import com.oftekfak.emagazine.entity.PostEntity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class PostModel {
     private Long postId;
@@ -23,11 +24,13 @@ public class PostModel {
     }
 
     public PostModel(PostEntity postEntity) {
-        postId = postEntity.getId();
-        userId = postEntity.getUserId();
-        title = postEntity.getTitle();
-        content = postEntity.getContent();
-        createdDate = postEntity.getCreatedAt();
+        if (Objects.nonNull(postEntity)) {
+            postId = postEntity.getId();
+            userId = postEntity.getUserId();
+            title = postEntity.getTitle();
+            content = postEntity.getContent();
+            createdDate = postEntity.getCreatedAt();
+        }
     }
 
     public Long getPostId() {

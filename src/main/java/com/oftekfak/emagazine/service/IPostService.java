@@ -3,16 +3,17 @@ package com.oftekfak.emagazine.service;
 import com.oftekfak.emagazine.entity.PostEntity;
 import com.oftekfak.emagazine.model.post.PostModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public interface IPostService {
-    PostEntity addPost(PostModel postModel);
+    PostModel addPost(PostModel postModel);
 
-    List<PostEntity> inquireUserHomePagePosts();
+    LinkedList<PostModel> inquireUserHomePagePosts();
 
-    List<PostEntity> inquireUserHomePagePostsForNewUser();
+    List<PostModel> inquireUserHomePagePostsForNewUser();
 
-    List<PostEntity> inquireUserPosts(Long userId);
+    List<PostModel> inquireUserPosts(Long userId);
 
     PostModel getPost(Long postId);
 
