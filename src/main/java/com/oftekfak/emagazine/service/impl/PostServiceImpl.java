@@ -1,5 +1,6 @@
 package com.oftekfak.emagazine.service.impl;
 
+import com.oftekfak.emagazine.entity.LikeRelEntity;
 import com.oftekfak.emagazine.entity.PostEntity;
 import com.oftekfak.emagazine.entity.UserFollowEntity;
 import com.oftekfak.emagazine.model.post.PostModel;
@@ -10,7 +11,6 @@ import com.oftekfak.emagazine.security.AuthUserProvider;
 import com.oftekfak.emagazine.service.IAppUserService;
 import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,8 +76,11 @@ public class PostServiceImpl implements IPostService {
 
         PostModel postModel = postModelOptional.get();
 
-        postModel.setLikeCount(inquireLikeCount(postId));
         postModel.setUserName(userService.inquireSimpleProfileInfo(postModel.getUserId()).getUserName());
+        postModel.setLikeCount(inquireLikeCount(postId));
+        Optional<LikeRelEntity> likeRelEntityOptional = likeRepository.findByUserIdAndPostId(userService.getAuthUserId(), postId);
+        boolean isLiked = likeRelEntityOptional.isPresent() && likeRelEntityOptional.get().getActive();
+        postModel.setLiked(isLiked);
 
         return postModel;
     }

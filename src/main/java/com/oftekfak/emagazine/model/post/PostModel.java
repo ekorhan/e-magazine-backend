@@ -17,6 +17,7 @@ public class PostModel {
     private int commentCount;
     private List<String> comments;
     private Date createdDate;
+    private Boolean isLiked;
 
     public PostModel() {
     }
@@ -115,5 +116,13 @@ public class PostModel {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public Boolean getLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(Boolean liked) {
+        isLiked = liked;
     }
 }
