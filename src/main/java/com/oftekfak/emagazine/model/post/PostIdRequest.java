@@ -1,6 +1,6 @@
 package com.oftekfak.emagazine.model.post;
 
-public class PostIdModel {
+public class PostIdRequest {
     private long postId;
     private String comment;
 

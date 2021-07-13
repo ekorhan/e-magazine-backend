@@ -61,10 +61,19 @@ public class UserServiceImpl implements IUserService {
     }
 
     public Long followUser(Long followedUserId) {
-        UserFollowEntity userFollowEntity = new UserFollowEntity();
-        userFollowEntity.setMainUser(getAuthUserId());
-        userFollowEntity.setFollowedUser(followedUserId);
-        userFollowEntity.setCreatedAt(new Date());
+        UserFollowEntity userFollowEntity;
+        Long userId = getAuthUserId();
+        Optional<UserFollowEntity> userFollowEntityOptional = userFollowRepository
+                .findByMainUserAndFollowedUserAndActive(userId, followedUserId, true);
+        if (userFollowEntityOptional.isPresent()) {
+            userFollowEntity = userFollowEntityOptional.get();
+            userFollowEntity.setActive(!userFollowEntity.isActive());
+        } else {
+            userFollowEntity = new UserFollowEntity();
+            userFollowEntity.setMainUser(getAuthUserId());
+            userFollowEntity.setFollowedUser(followedUserId);
+            userFollowEntity.setCreatedAt(new Date());
+        }
         userFollowRepository.save(userFollowEntity);
         List<UserFollowEntity> followEntity = userFollowRepository.findByFollowedUser(followedUserId);
         if (Objects.nonNull(followEntity) && !followEntity.isEmpty())
