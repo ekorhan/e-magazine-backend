@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,8 +33,12 @@ public class AppUserServiceImpl implements IAppUserService {
 
     @Override
     public AppUser getAppUser(String email) {
-        List<AppUser> a = appUserRepository.findAll();
         return appUserRepository.inquireUserByEmail(email);
+    }
+
+    @Override
+    public AppUser getAppUser(Long userId) {
+        return appUserRepository.getOne(userId);
     }
 
     @Override

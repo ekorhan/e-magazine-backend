@@ -1,8 +1,7 @@
 package com.oftekfak.emagazine.service.impl;
 
-import com.oftekfak.emagazine.entity.LikeRelEntity;
-import com.oftekfak.emagazine.entity.PostEntity;
-import com.oftekfak.emagazine.entity.UserFollowEntity;
+import com.oftekfak.emagazine.entity.*;
+import com.oftekfak.emagazine.model.post.CommentModel;
 import com.oftekfak.emagazine.model.post.PostModel;
 import com.oftekfak.emagazine.repository.CommentRepository;
 import com.oftekfak.emagazine.repository.LikeRepository;
@@ -11,6 +10,7 @@ import com.oftekfak.emagazine.security.AuthUserProvider;
 import com.oftekfak.emagazine.service.IAppUserService;
 import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
+import com.oftekfak.emagazine.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,9 +85,21 @@ public class PostServiceImpl implements IPostService {
 
         postModel.setUserName(userService.inquireSimpleProfileInfo(postModel.getUserId()).getUserName());
         postModel.setLikeCount(inquireLikeCount(postId));
-        Optional<LikeRelEntity> likeRelEntityOptional = likeRepository.findByUserIdAndPostId(userService.getAuthUserId(), postId);
+        Long userId = userService.getAuthUserId();
+        Optional<LikeRelEntity> likeRelEntityOptional = likeRepository.findByUserIdAndPostId(userId, postId);
         boolean isLiked = likeRelEntityOptional.isPresent() && likeRelEntityOptional.get().getActive();
         postModel.setLiked(isLiked);
+        LinkedList<CommentModel> commentModels = new LinkedList<>();
+        for (CommentRelEntity e : commentRepository.findByPostIdAndActiveOrderByCreatedAtDesc(postId, true)) {
+            CommentModel commentModel = new CommentModel();
+            commentModel.setComment(e.getComment());
+            commentModel.setOwner(commentModel.getUserId().longValue() == userId.longValue());
+            AppUser appUser = appUserService.getAppUser(e.getUserId());
+            commentModel.setUserId(e.getUserId());
+            commentModel.setUserName(appUser.getUsername());
+            commentModel.setFullName(ObjectUtils.getFullNameFromAppUser(appUser));
+        }
+        postModel.setComments(commentModels);
 
         return postModel;
     }

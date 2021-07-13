@@ -111,7 +111,6 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void commentPost(Long postId, String comment) {
-
         CommentRelEntity commentRelEntity = new CommentRelEntity();
         commentRelEntity.setComment(comment);
         commentRelEntity.setPostId(postId);
