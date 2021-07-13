@@ -16,7 +16,7 @@ public class PostModel {
     private String picUrl;
     private int likeCount;
     private int commentCount;
-    private List<String> comments;
+    private List<CommentModel> comments;
     private Date createdDate;
     private Boolean isLiked;
 
@@ -105,11 +105,11 @@ public class PostModel {
         this.commentCount = commentCount;
     }
 
-    public List<String> getComments() {
+    public List<CommentModel> getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(List<CommentModel> comments) {
         this.comments = comments;
     }
 
