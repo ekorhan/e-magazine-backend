@@ -56,10 +56,7 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public List<PostModel> inquireUserHomePagePostsForNewUser() {
-        List<PostModel> postModels = new ArrayList<>();
-        postRepository.findAll()
-                .forEach(e -> postModels.add(new PostModel(e)));
-        return postModels;
+        return postRepository.findAllPost();
     }
 
     @Override
@@ -83,7 +80,6 @@ public class PostServiceImpl implements IPostService {
 
         PostModel postModel = postModelOptional.get();
 
-        postModel.setUserName(userService.inquireSimpleProfileInfo(postModel.getUserId()).getUserName());
         postModel.setLikeCount(inquireLikeCount(postId));
         Long userId = userService.getAuthUserId();
         Optional<LikeRelEntity> likeRelEntityOptional = likeRepository.findByUserIdAndPostId(userId, postId);
@@ -93,13 +89,15 @@ public class PostServiceImpl implements IPostService {
         for (CommentRelEntity e : commentRepository.findByPostIdAndActiveOrderByCreatedAtDesc(postId, true)) {
             CommentModel commentModel = new CommentModel();
             commentModel.setComment(e.getComment());
-            commentModel.setOwner(commentModel.getUserId().longValue() == userId.longValue());
+            commentModel.setOwner(e.getUserId().longValue() == userId.longValue());
             AppUser appUser = appUserService.getAppUser(e.getUserId());
             commentModel.setUserId(e.getUserId());
             commentModel.setUserName(appUser.getUsername());
             commentModel.setFullName(ObjectUtils.getFullNameFromAppUser(appUser));
+            commentModels.add(commentModel);
         }
         postModel.setComments(commentModels);
+        postModel.setCommentCount(commentModels.size());
 
         return postModel;
     }
