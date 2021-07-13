@@ -94,6 +94,7 @@ public class PostServiceImpl implements IPostService {
             commentModel.setUserId(e.getUserId());
             commentModel.setUserName(appUser.getUsername());
             commentModel.setFullName(ObjectUtils.getFullNameFromAppUser(appUser));
+            commentModel.setCreatedDate(e.getCreatedAt());
             commentModels.add(commentModel);
         }
         postModel.setComments(commentModels);
