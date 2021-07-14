@@ -42,12 +42,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IAppUserService appUserService;
 
-    public ProfileModel inquireSimpleProfileInfo(Long userId) {
-        ProfileModel profileModel = userRepository.findSimpleProfileInfo(userId).orElse(null);
-        if (Objects.nonNull(profileModel)) {
-            setFollowCounts(profileModel);
-        }
-        return profileModel;
+    @Override
+    public ProfileModel myProfile() {
+        return inquireAllProfileInfo(getAuthUserId());
     }
 
     public ProfileModel inquireAllProfileInfo(Long userId) {
@@ -120,19 +117,22 @@ public class UserServiceImpl implements IUserService {
         commentRepository.save(commentRelEntity);
     }
 
-    private ProfileModel setFollowCounts(ProfileModel profileModel) {
+    private void setFollowCounts(ProfileModel profileModel) {
         long followedUserCount = inquireFollowedUsers(profileModel.getId()).size();
-        long followersCount = inquireFollowers(profileModel.getId()).size();
-
+        List<UserFollowEntity> followers = inquireFollowers(profileModel.getId());
+        long followersCount = followers.size();
+        for (UserFollowEntity e : followers) {
+            if (e.getMainUser().longValue() == getAuthUserId().longValue()) {
+                profileModel.setFollowed(true);
+                break;
+            }
+        }
         profileModel.setFollowedCount(followedUserCount);
         profileModel.setFollowerCount(followersCount);
-
-        return profileModel;
     }
 
-    private ProfileModel setPosts(ProfileModel profileModel) {
+    private void setPosts(ProfileModel profileModel) {
         profileModel.setPostsFromEntity(postService.inquireUserPosts(profileModel.getId()));
-        return profileModel;
     }
 
     public Long getAuthUserId() {
