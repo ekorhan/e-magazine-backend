@@ -13,10 +13,10 @@ public class PostModel {
     private Long userId;
     private String userName;
     private String fullName;
-    private Long userProfilePic;
+    private String userProfilePic;
     private String title;
     private String content;
-    private String picUrl;
+    private String picture;
     private int likeCount;
     private int commentCount;
     private List<CommentModel> comments;
@@ -43,12 +43,14 @@ public class PostModel {
             title = postEntity.getTitle();
             content = postEntity.getContent();
             createdDate = postEntity.getCreatedAt();
+            picture = postEntity.getPicture();
         }
 
         if (Objects.nonNull(appUser)) {
             userId = appUser.getId();
             userName = appUser.getUsername();
             fullName = ObjectUtils.getFullNameFromAppUser(appUser);
+            userProfilePic = appUser.getProfilePicture();
         }
     }
 
@@ -84,11 +86,11 @@ public class PostModel {
         this.fullName = fullName;
     }
 
-    public Long getUserProfilePic() {
+    public String getUserProfilePic() {
         return userProfilePic;
     }
 
-    public void setUserProfilePic(Long userProfilePic) {
+    public void setUserProfilePic(String userProfilePic) {
         this.userProfilePic = userProfilePic;
     }
 
@@ -108,12 +110,12 @@ public class PostModel {
         this.content = content;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public int getLikeCount() {
