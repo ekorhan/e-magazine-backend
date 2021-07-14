@@ -25,6 +25,7 @@ public class AppUser implements UserDetails {
     private AppUserRole appUserRole;
     private Boolean locked = false;
     private Boolean enabled = false;
+    private String profilePicture;
 
     public AppUser(String firstName,
                    String lastName,
@@ -124,5 +125,14 @@ public class AppUser implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    @Column(name = "profile_picture")
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

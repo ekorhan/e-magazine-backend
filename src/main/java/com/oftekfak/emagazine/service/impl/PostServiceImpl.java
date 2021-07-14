@@ -40,6 +40,7 @@ public class PostServiceImpl implements IPostService {
         postEntity.setContent(postModel.getContent());
         postEntity.setUserId(appUserService.getAppUser(AuthUserProvider.getAuthUser()).getId());
         postEntity.setCreatedAt(new Date());
+        postEntity.setPicture(postModel.getPicture());
         return new PostModel(postRepository.save(postEntity));
     }
 

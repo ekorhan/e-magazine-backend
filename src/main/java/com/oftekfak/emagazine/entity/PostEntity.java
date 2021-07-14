@@ -10,6 +10,7 @@ public class PostEntity extends BaseEntity {
     private Long userId;
     private String title;
     private String content;
+    private String picture;
 
     @Column(name = "user_id")
     public Long getUserId() {
@@ -36,5 +37,14 @@ public class PostEntity extends BaseEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Column(name = "picture")
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }
