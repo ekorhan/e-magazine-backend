@@ -10,11 +10,10 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity implements Serializable {
     private Long id;
-    private Date createdAt;
+    private Date createdAt = new Date();
 
-    @SequenceGenerator(name = "user_follow_sequence", sequenceName = "user_follow_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_follow_sequence")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
