@@ -6,7 +6,7 @@ import com.oftekfak.emagazine.model.user.ProfileModel;
 import java.util.List;
 
 public interface IUserService {
-    ProfileModel inquireSimpleProfileInfo(Long userId);
+    ProfileModel myProfile();
 
     ProfileModel inquireAllProfileInfo(Long userId);
 

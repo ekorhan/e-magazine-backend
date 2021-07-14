@@ -16,6 +16,7 @@ public class ProfileModel {
     private long followerCount;
     private long followedCount;
     private List<PostModel> posts = new ArrayList<>();
+    private boolean followed = false;
 
     public ProfileModel(AppUser appUser) {
         id = appUser.getId();
@@ -98,4 +99,11 @@ public class ProfileModel {
         posts.addAll(postModels);
     }
 
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
 }
