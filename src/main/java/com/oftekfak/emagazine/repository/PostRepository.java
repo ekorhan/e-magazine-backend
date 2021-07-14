@@ -17,14 +17,20 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
     @Query("select p from PostEntity p where p.userId in (:ids) order by p.createdAt desc")
     List<PostEntity> findAllByUserIdOrderByCreatedAtDesc(List<Long> ids);
-/*
-    @Query
-    List<PostModel> findAllPostFromPostId(List<Long> ids);
-*/
-    @Query("select new com.oftekfak.emagazine.model.post.PostModel(p) from PostEntity p where p.id=:id ")
+
+    /*
+        @Query
+        List<PostModel> findAllPostFromPostId(List<Long> ids);
+    */
+    @Query("select new com.oftekfak.emagazine.model.post.PostModel(p, u) from PostEntity p " +
+            "join AppUser u on p.userId = u.id where p.id=:id ")
     Optional<PostModel> findAllPostFromPostId(@Param("id") Long id);
 /*
     @Query
     List<PostModel> findAllPostFromUserId(List<Long> ids);
  */
+
+    @Query("select new com.oftekfak.emagazine.model.post.PostModel(p, u) from PostEntity p " +
+            "join AppUser u on p.userId = u.id order by p.createdAt desc")
+    List<PostModel> findAllPost();
 }

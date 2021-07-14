@@ -115,6 +115,8 @@ public class UserServiceImpl implements IUserService {
         commentRelEntity.setComment(comment);
         commentRelEntity.setPostId(postId);
         commentRelEntity.setUserId(getAuthUserId());
+        commentRelEntity.setActive(true);
+        commentRelEntity.setCreatedAt(new Date());
         commentRepository.save(commentRelEntity);
     }
 

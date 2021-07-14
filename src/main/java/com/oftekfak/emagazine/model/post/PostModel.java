@@ -1,6 +1,8 @@
 package com.oftekfak.emagazine.model.post;
 
+import com.oftekfak.emagazine.entity.AppUser;
 import com.oftekfak.emagazine.entity.PostEntity;
+import com.oftekfak.emagazine.utils.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -10,6 +12,7 @@ public class PostModel {
     private Long postId;
     private Long userId;
     private String userName;
+    private String fullName;
     private Long userProfilePic;
     private String title;
     private String content;
@@ -30,6 +33,22 @@ public class PostModel {
             title = postEntity.getTitle();
             content = postEntity.getContent();
             createdDate = postEntity.getCreatedAt();
+        }
+    }
+
+    public PostModel(PostEntity postEntity, AppUser appUser) {
+        if (Objects.nonNull(postEntity)) {
+            postId = postEntity.getId();
+            userId = postEntity.getUserId();
+            title = postEntity.getTitle();
+            content = postEntity.getContent();
+            createdDate = postEntity.getCreatedAt();
+        }
+
+        if (Objects.nonNull(appUser)) {
+            userId = appUser.getId();
+            userName = appUser.getUsername();
+            fullName = ObjectUtils.getFullNameFromAppUser(appUser);
         }
     }
 
@@ -55,6 +74,14 @@ public class PostModel {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Long getUserProfilePic() {

@@ -1,11 +1,14 @@
 package com.oftekfak.emagazine.model.post;
 
+import java.util.Date;
+
 public class CommentModel {
     private Long userId;
     private String userName;
     private String fullName;
     private String comment;
     private boolean isOwner;
+    private Date createdDate;
 
     public Long getUserId() {
         return userId;
@@ -45,5 +48,13 @@ public class CommentModel {
 
     public void setOwner(boolean owner) {
         isOwner = owner;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }
