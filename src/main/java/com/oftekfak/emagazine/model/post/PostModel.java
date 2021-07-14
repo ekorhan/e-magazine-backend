@@ -33,6 +33,7 @@ public class PostModel {
             title = postEntity.getTitle();
             content = postEntity.getContent();
             createdDate = postEntity.getCreatedAt();
+            picture = postEntity.getPicture();
         }
     }
 

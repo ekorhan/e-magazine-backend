@@ -39,7 +39,7 @@ public class PostEntity extends BaseEntity {
         this.content = content;
     }
 
-    @Column(name = "picture")
+    @Column(name = "picture", columnDefinition = "TEXT")
     public String getPicture() {
         return picture;
     }
