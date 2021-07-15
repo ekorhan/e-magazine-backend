@@ -1,15 +1,18 @@
 package com.oftekfak.emagazine.service.impl;
 
+import com.oftekfak.emagazine.ai.discovery.BaseAI;
+import com.oftekfak.emagazine.ai.discovery.Random;
+import com.oftekfak.emagazine.ai.discovery.SimpleAI;
+import com.oftekfak.emagazine.ai.discovery.UserStatsAI;
 import com.oftekfak.emagazine.entity.*;
 import com.oftekfak.emagazine.model.post.CommentModel;
 import com.oftekfak.emagazine.model.post.PostModel;
-import com.oftekfak.emagazine.repository.CommentRepository;
-import com.oftekfak.emagazine.repository.LikeRepository;
-import com.oftekfak.emagazine.repository.PostRepository;
+import com.oftekfak.emagazine.repository.*;
 import com.oftekfak.emagazine.security.AuthUserProvider;
 import com.oftekfak.emagazine.service.IAppUserService;
 import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
+import com.oftekfak.emagazine.utils.Constants;
 import com.oftekfak.emagazine.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,12 @@ public class PostServiceImpl implements IPostService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private AIUserRelRepository aiUserRelRepository;
+
+    @Autowired
+    private AIRepository aiRepository;
+
     public PostModel addPost(PostModel postModel) {
         PostEntity postEntity = new PostEntity();
         postEntity.setTitle(postModel.getTitle());
@@ -49,10 +58,7 @@ public class PostServiceImpl implements IPostService {
         List<UserFollowEntity> followedUsers = userService.inquireFollowedUsers(userService.getAuthUserId());
         ArrayList<Long> followedUserIds = new ArrayList<>();
         followedUsers.forEach(m -> followedUserIds.add(m.getFollowedUser()));
-        LinkedList<PostModel> postModels = new LinkedList<>();
-        postRepository.findAllByUserIdOrderByCreatedAtDesc(followedUserIds)
-                .forEach(e -> postModels.add(new PostModel(e)));
-        return postModels;
+        return postRepository.findPostsFromUserIds(followedUserIds);
     }
 
     @Override
@@ -62,13 +68,9 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public LinkedList<PostModel> inquireUserPosts(Long userId) {
-        List<PostEntity> postEntities = postRepository.findByUserIdOrderByCreatedAtDesc(userId);
-        if (postEntities == null)
+        LinkedList<PostModel> postModels = postRepository.findPostsFromUserId(userId);
+        if (postModels == null)
             return new LinkedList<>();
-
-        LinkedList<PostModel> postModels = new LinkedList<>();
-
-        postEntities.forEach(e -> postModels.add(new PostModel(e)));
 
         return postModels;
     }
@@ -107,5 +109,49 @@ public class PostServiceImpl implements IPostService {
     @Override
     public int inquireLikeCount(Long postId) {
         return likeRepository.likeCount(postId).size();
+    }
+
+    @Override
+    public List<PostModel> discovery() {
+        BaseAI ai;
+        Long userId = userService.getAuthUserId();
+
+        String mostSuccessfulAI = findMostSuccessfulAIForUser(userId);
+        switch (mostSuccessfulAI) {
+            case Constants.AI_Short_Codes.a:
+                ai = new UserStatsAI();
+                break;
+            case Constants.AI_Short_Codes.b:
+                ai = new Random();
+                break;
+            default:
+                ai = new SimpleAI();
+                break;
+        }
+
+        List<PostModel> postModels = ai.getPosts(userId);
+
+        if (postModels == null)
+            return new ArrayList<>();
+
+        return postModels;
+    }
+
+    @Override
+    public List<PostModel> simpleDiscovery() {
+        BaseAI ai = new SimpleAI();
+        return ai.getPosts(userService.getAuthUserId());
+    }
+
+    private String findMostSuccessfulAIForUser(Long userId) {
+        String mostSuccessfulAI = null;
+        LinkedList<UserAIRel> userAIRel = aiUserRelRepository.getMostSuccessfulAI(userId);
+        if (Objects.nonNull(userAIRel) && !userAIRel.isEmpty() && Objects.nonNull(userAIRel.get(0))) {
+            Optional<String> e = aiRepository.findShortCodeById(userAIRel.get(0).getAiId());
+            if (e.isPresent())
+                mostSuccessfulAI = e.get();
+        }
+
+        return mostSuccessfulAI;
     }
 }

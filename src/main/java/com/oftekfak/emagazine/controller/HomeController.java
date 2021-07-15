@@ -27,4 +27,17 @@ public class HomeController {
     public ResponseEntity<LinkedList<PostModel>> inquireHomePagePosts() {
         return ResponseEntity.ok(postService.inquireUserHomePagePosts());
     }
+
+    @GetMapping("/discovery")
+    public ResponseEntity<List<PostModel>> discovery() {
+        try {
+            return ResponseEntity.ok(postService.discovery());
+        } catch (Exception e) {
+            try {
+                return ResponseEntity.ok(postService.simpleDiscovery());
+            } catch (Exception e1) {
+                throw new IllegalStateException(e1);
+            }
+        }
+    }
 }
