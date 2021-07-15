@@ -28,10 +28,10 @@ import java.util.*;
  * TODO: Son üç adım kümeleme stabilleşene kadar devam eder
  */
 public class ClusteringAlgorithm {
-    private ClusteringDataRequest request;
-    private int k;
+    private final ClusteringDataRequest request;
+    private final int k;
     private int sampleCount;
-    private ArrayList<Double> mainCenter = new ArrayList<>();
+    private final ArrayList<Double> mainCenter = new ArrayList<>();
     private HashMap<Integer, ArrayList<Double>> centers = new HashMap<>();
     HashMap<Long, ArrayList<Double>> userAndCord = new HashMap<>();
     HashMap<Long, Integer> userAndCenter = new HashMap<>();
