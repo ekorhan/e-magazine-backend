@@ -1,6 +1,7 @@
 package com.oftekfak.emagazine.service.impl;
 
 import com.google.gson.Gson;
+import com.oftekfak.emagazine.model.instagram.Edges;
 import com.oftekfak.emagazine.model.instagram.HashTagPostModel;
 import com.oftekfak.emagazine.model.instagram.UserNameResponse.UserNameResponse;
 import com.oftekfak.emagazine.service.IInstagramService;
@@ -45,11 +46,11 @@ public class InstagramServiceImpl implements IInstagramService {
         HashTagPostModel hashTagPostModel = gson.fromJson(response.getBody(), HashTagPostModel.class);
 
 
-        ArrayList<HashTagPostModel.Graphql.Hashtag.EdgeHashTagToMedia.Edges> list
+        ArrayList<Edges> list
                 = hashTagPostModel.getGraphql().getHashtag().getEdgeHashTagToMedia().getEdges();
 
         ArrayList<String> responseList = new ArrayList<>();
-        for (HashTagPostModel.Graphql.Hashtag.EdgeHashTagToMedia.Edges e : list) {
+        for (Edges e : list) {
             if (responseList.size() == 3)
                 return responseList;
 
