@@ -25,6 +25,7 @@ public class AppUser implements UserDetails {
     private AppUserRole appUserRole;
     private Boolean locked = false;
     private Boolean enabled = false;
+    @Column(name = "profile_picture", columnDefinition = "TEXT", length = 65534)
     private String profilePicture;
 
     public AppUser(String firstName,
