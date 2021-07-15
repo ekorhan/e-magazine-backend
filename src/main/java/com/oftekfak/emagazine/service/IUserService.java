@@ -10,7 +10,7 @@ public interface IUserService {
 
     ProfileModel inquireAllProfileInfo(Long userId);
 
-    Long followUser(Long followedUserId);
+    long followUser(Long followedUserId);
 
     List<UserFollowEntity> inquireFollowedUsers(Long userId);
 

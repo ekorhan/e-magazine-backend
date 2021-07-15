@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserFollowRepository extends JpaRepository<UserFollowEntity, Long> {
-    List<UserFollowEntity> findByMainUser(Long mainUser);
+    List<UserFollowEntity> findByMainUserAndActive(Long mainUser, boolean isActive);
 
-    List<UserFollowEntity> findByFollowedUser(Long followedUser);
+    List<UserFollowEntity> findByFollowedUserAndActive(Long followedUser, boolean isActive);
 
-    Optional<UserFollowEntity> findByMainUserAndFollowedUserAndActive(Long mainUser, Long followedUser, boolean isActive);
+    Optional<UserFollowEntity> findByMainUserAndFollowedUser(Long mainUser, Long followedUser);
 }

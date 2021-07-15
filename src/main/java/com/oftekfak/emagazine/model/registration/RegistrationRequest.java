@@ -8,12 +8,14 @@ public class RegistrationRequest {
     private final String lastName;
     private final String email;
     private final String password;
+    private final String profilePicture;
 
-    public RegistrationRequest(String firstName, String lastName, String email, String password) {
+    public RegistrationRequest(String firstName, String lastName, String email, String password, String profilePicture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.profilePicture = profilePicture;
     }
 
     public String getFirstName() {
@@ -30,5 +32,9 @@ public class RegistrationRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
     }
 }
