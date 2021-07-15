@@ -26,6 +26,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getJwtFromRequest(request);
 
+        if (request.getRequestURI().contains("v1/find")){
+            filterChain.doFilter(request,response);
+            return;
+        }
+
         if (request.getRequestURI().equals("/api/v1/registration/")
                 || request.getRequestURI().equals("/api/v1/login/")) {
             filterChain.doFilter(request, response);
