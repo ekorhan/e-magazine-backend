@@ -26,7 +26,7 @@ public class UserController {
     @PostMapping(path = "/likePost", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> likePost(@RequestBody PostIdRequest postIdRequest) {
         try {
-            userService.likePost(postIdRequest.getPostId());
+            userService.likePost(userService.getAuthUserId(), postIdRequest.getPostId());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

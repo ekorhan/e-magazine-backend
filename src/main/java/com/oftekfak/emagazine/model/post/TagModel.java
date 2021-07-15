@@ -1,13 +1,15 @@
 package com.oftekfak.emagazine.model.post;
 
+import com.oftekfak.emagazine.entity.TagEntity;
+
 public class TagModel {
-    private Integer id;
+    private Long id;
     private String shortCode;
     private String name;
     private Integer categoryId;
     private String category;
 
-    public TagModel(Integer id, String shortCode, String name, Integer categoryId, String category) {
+    public TagModel(Long id, String shortCode, String name, Integer categoryId, String category) {
         this.id = id;
         this.shortCode = shortCode;
         this.name = name;
@@ -15,11 +17,19 @@ public class TagModel {
         this.category = category;
     }
 
-    public Integer getId() {
+    public TagModel(TagEntity t) {
+        this.id = t.getId();
+        this.shortCode = t.getShortCode();
+        this.name = t.getName();
+        this.categoryId = t.getCategoryId();
+        this.category = t.getCategory();
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

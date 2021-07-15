@@ -1,5 +1,6 @@
 package com.oftekfak.emagazine.service.impl;
 
+import com.oftekfak.emagazine.config.SpringAsyncConfig;
 import com.oftekfak.emagazine.entity.AppUser;
 import com.oftekfak.emagazine.entity.CommentRelEntity;
 import com.oftekfak.emagazine.entity.LikeRelEntity;
@@ -14,6 +15,7 @@ import com.oftekfak.emagazine.service.IAppUserService;
 import com.oftekfak.emagazine.service.IPostService;
 import com.oftekfak.emagazine.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,7 +24,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl extends SpringAsyncConfig implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -88,8 +90,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void likePost(Long postId) {
-        Long userId = getAuthUserId();
+    @Async
+    public void likePost(Long userId, Long postId) {
         Optional<LikeRelEntity> likeRelEntityOptional = likeRepository.findByUserIdAndPostId(userId, postId);
         LikeRelEntity likeRelEntity;
         if (likeRelEntityOptional.isPresent()) {
@@ -103,6 +105,10 @@ public class UserServiceImpl implements IUserService {
             likeRelEntity.setCreatedAt(new Date());
         }
         likeRepository.save(likeRelEntity);
+        setUserLikeStats();
+    }
+
+    public void setUserLikeStats() {
     }
 
     @Override
