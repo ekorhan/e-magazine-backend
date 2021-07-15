@@ -1,6 +1,5 @@
 package com.oftekfak.emagazine.service;
 
-import com.oftekfak.emagazine.entity.PostEntity;
 import com.oftekfak.emagazine.model.post.PostModel;
 
 import java.util.LinkedList;
@@ -18,4 +17,8 @@ public interface IPostService {
     PostModel getPost(Long postId);
 
     int inquireLikeCount(Long postId);
+
+    List<PostModel> discovery();
+
+    List<PostModel> simpleDiscovery();
 }

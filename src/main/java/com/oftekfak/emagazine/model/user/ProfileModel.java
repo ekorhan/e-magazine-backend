@@ -1,7 +1,6 @@
 package com.oftekfak.emagazine.model.user;
 
 import com.oftekfak.emagazine.entity.AppUser;
-import com.oftekfak.emagazine.entity.PostEntity;
 import com.oftekfak.emagazine.model.post.PostModel;
 
 import java.util.ArrayList;
@@ -26,10 +25,6 @@ public class ProfileModel {
         firstName = appUser.getFirstName();
         lastName = appUser.getLastName();
         profilePicture = appUser.getProfilePicture();
-    }
-
-    public ProfileModel(AppUser appUser, List<PostEntity> postEntities) {
-        this(appUser);
     }
 
     public Long getId() {
