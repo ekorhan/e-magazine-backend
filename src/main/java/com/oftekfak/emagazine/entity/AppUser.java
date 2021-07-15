@@ -25,18 +25,21 @@ public class AppUser implements UserDetails {
     private AppUserRole appUserRole;
     private Boolean locked = false;
     private Boolean enabled = false;
+    @Column(name = "profile_picture", columnDefinition = "TEXT", length = 65534)
     private String profilePicture;
 
     public AppUser(String firstName,
                    String lastName,
                    String email,
                    String password,
-                   AppUserRole appUserRole) {
+                   AppUserRole appUserRole,
+                   String profilePicture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.appUserRole = appUserRole;
+        this.profilePicture = profilePicture;
     }
 
     public AppUser() {
@@ -127,7 +130,7 @@ public class AppUser implements UserDetails {
         return email;
     }
 
-    @Column(name = "profile_picture")
+    @Column(name = "profile_picture", columnDefinition = "TEXT", length = 65534)
     public String getProfilePicture() {
         return profilePicture;
     }

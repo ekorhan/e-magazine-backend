@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping(path = "/follow", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> followUser(@RequestBody UserIdRequest userIdRequest) {
-        return ResponseEntity.ok(userService.followUser(userIdRequest.getUserId()));
+        return ResponseEntity.ok(userService.followUser(userIdRequest.getId()));
     }
 
     @PostMapping(path = "/likePost", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,13 +1,13 @@
 package com.oftekfak.emagazine.model.user;
 
 public class UserIdRequest {
-    private Long userId;
+    private Long id;
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

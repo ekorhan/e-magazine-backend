@@ -17,6 +17,7 @@ public class ProfileModel {
     private long followedCount;
     private List<PostModel> posts = new ArrayList<>();
     private boolean followed = false;
+    private String profilePicture;
 
     public ProfileModel(AppUser appUser) {
         id = appUser.getId();
@@ -24,11 +25,11 @@ public class ProfileModel {
         mail = appUser.getEmail();
         firstName = appUser.getFirstName();
         lastName = appUser.getLastName();
+        profilePicture = appUser.getProfilePicture();
     }
 
     public ProfileModel(AppUser appUser, List<PostEntity> postEntities) {
         this(appUser);
-
     }
 
     public Long getId() {
@@ -105,5 +106,13 @@ public class ProfileModel {
 
     public void setFollowed(boolean followed) {
         this.followed = followed;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

@@ -57,11 +57,11 @@ public class UserServiceImpl implements IUserService {
         return profileModel;
     }
 
-    public Long followUser(Long followedUserId) {
+    public long followUser(Long followedUserId) {
         UserFollowEntity userFollowEntity;
         Long userId = getAuthUserId();
         Optional<UserFollowEntity> userFollowEntityOptional = userFollowRepository
-                .findByMainUserAndFollowedUserAndActive(userId, followedUserId, true);
+                .findByMainUserAndFollowedUser(userId, followedUserId);
         if (userFollowEntityOptional.isPresent()) {
             userFollowEntity = userFollowEntityOptional.get();
             userFollowEntity.setActive(!userFollowEntity.isActive());
@@ -70,22 +70,21 @@ public class UserServiceImpl implements IUserService {
             userFollowEntity.setMainUser(getAuthUserId());
             userFollowEntity.setFollowedUser(followedUserId);
             userFollowEntity.setCreatedAt(new Date());
+            userFollowEntity.setActive(true);
         }
         userFollowRepository.save(userFollowEntity);
-        List<UserFollowEntity> followEntity = userFollowRepository.findByFollowedUser(followedUserId);
-        if (Objects.nonNull(followEntity) && !followEntity.isEmpty())
-            return (long) followEntity.size();
-        return null;
+        List<UserFollowEntity> followEntity = userFollowRepository.findByFollowedUserAndActive(followedUserId, true);
+        return followEntity.size();
     }
 
     @Override
     public List<UserFollowEntity> inquireFollowedUsers(Long userId) {
-        return userFollowRepository.findByMainUser(userId);
+        return userFollowRepository.findByMainUserAndActive(userId, true);
     }
 
     @Override
     public List<UserFollowEntity> inquireFollowers(Long userId) {
-        return userFollowRepository.findByFollowedUser(userId);
+        return userFollowRepository.findByFollowedUserAndActive(userId, true);
     }
 
     @Override
